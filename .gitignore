@@ -52,6 +52,7 @@ coverage
 *.lcov
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
+build*/
 build/Release
 *.slo
 *.lo
