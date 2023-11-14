@@ -4,7 +4,10 @@
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/sys/printk.h>
 
-#define I2C0_NODE DT_NODELABEL(i2c0)
+// #include "../aw210xx/aw210xx.h"
+// #include "../aw210xx/aw210xx_reg.h"
+
+#define I2C0_NODE DT_NODELABEL(led_dev)
 
 
 #define BAT_REMAIN_CAP          (0x0F)
@@ -15,6 +18,9 @@
 #define BAT_MANU_INFO           (0x81)
 
 #define I2C_ADDR                127
+
+#define LED_CHIP_ID             (0x12)
+
 
 void main(void)
 
@@ -28,40 +34,17 @@ void main(void)
         printk("Device Ready : %s\n\r", device_is_ready(dev_i2c.bus) ? "Ready" : "IDLE");
         printk("Addr Located @ : %x\n\r", dev_i2c.addr);
 
-        for (uint8_t i = 4; i <= 0x77; i++) {
-		// struct i2c_msg msgs[1];
-		// uint8_t dst = 1;
-
-		// /* Send the address to read from */
-		// msgs[0].buf = &dst;
-		// msgs[0].len = 1U;
-		// msgs[0].flags = I2C_MSG_WRITE | I2C_MSG_STOP;
-		
-		// error = i2c_transfer(dev_i2c, &msgs[0], 1, i);
-        uint8_t batRC = 0;
-        ret = i2c_write_read_dt(&dev_i2c, &BAT_FULL_CHARGE_CAP, 1, &batRC, 1);
-		if (ret == 0) {
-			printk("0x%2x FOUND\n", i);
-		}
-		else {
-			printk("error %d \n", ret);
-		}
-		
-		
-	    }
-	    printk("Scanning done\n");
-
-        // // ret = i2c_write_dt(&dev_i2c, BAT_REMAIN_CAP, sizeof(BAT_REMAIN_CAP));
-        // // if(ret != 0){
-        // //     printk("FAILED TO WRITE TO I2C TARGET @ %x ", dev_i2c.addr);
-        // //     return;
-        // //     }
-        // uint8_t batRC = 0;
-        // ret = i2c_write_read_dt(&dev_i2c, BAT_FULL_CHARGE_CAP, 1, &batRC, 1);
+        // ret = i2c_write_dt(&dev_i2c, BAT_REMAIN_CAP, sizeof(BAT_REMAIN_CAP));
         // if(ret != 0){
-        //         printk("FAILED TO READ FROM I2C TARGET @ %x \n\r", dev_i2c.addr);
-        //         }
-        // printk("RW Status : %x\n\r", ret);
-        // printk("Return Value : %x\n\r", batRC);
+        //     printk("FAILED TO WRITE TO I2C TARGET @ %x ", dev_i2c.addr);
+        //     return;
+        //     }
+        uint8_t send_and_get[2] = {LED_CHIP_ID, 0x00};
+        ret = i2c_write_read_dt(&dev_i2c, &send_and_get[0] , 1, &send_and_get[1], 1);
+        if(ret != 0){
+                printk("FAILED TO READ FROM I2C TARGET @ %x \n\r", dev_i2c.addr);
+                }
+        printk("RW Status : %x\n\r", ret);
+        printk("Return Value : %x\n\r", send_and_get[1]);
 
 }

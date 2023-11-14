@@ -29,7 +29,8 @@ void main(void)
 	k_sleep(K_SECONDS(1));
 
 	printk("Starting i2c scanner...\n");
-
+	i2c_dev = DEVICE_DT_GET(I2C_DEV);
+	
 	i2c_dev = device_get_binding(I2C_DEV);
 	if (!i2c_dev) {
 		printk("I2C: Device driver not found.\n");

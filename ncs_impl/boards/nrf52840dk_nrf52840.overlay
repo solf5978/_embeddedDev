@@ -1,8 +1,8 @@
 &i2c0 {
-    bat_pack: bat_pack@B{
+    led_dev: led_dev@20{
         compatible  = "i2c-device";
         status      = "okay";
-        reg         = < 0xb >;
-        label       = "bat_pack";
+        reg         = < 0x20 >;
+        label       = "led_dev";
     };
 };
