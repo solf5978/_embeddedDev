@@ -1,7 +1,8 @@
 &i2c0 {
-    batPack: batPack@B0{
+    bat_pack: bat_pack@B{
         compatible  = "i2c-device";
         status      = "okay";
-        reg         = < 0xb0 >;
+        reg         = < 0xb >;
+        label       = "bat_pack";
     };
 };
