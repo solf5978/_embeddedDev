@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"nrf-connect.applications": [
+			"${workspaceFolder}\\blinky",
+			"${workspaceFolder}\\ncs_impl"
+		]
+	}
+}

@@ -1,12 +1,17 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <zephyr/device.h>
-#include <zephyr/devicetree.h>
+/* device and devicetree headers are situated inside kernel*/
+// #include <zephyr/device.h>
+// #include <zephyr/devicetree.h>
+#include <zephyr/kernel.h>
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/printk.h>
 
+
+#define SLEEP_TIME_MS	1000
+#define SW0_NODE		DT_NODELABEL(button0)
 
 void main(void) {
 	/*
@@ -15,6 +20,7 @@ void main(void) {
 	**/
 	const struct device *dev_uart;
 	const struct device *dev_i2c;
+	static const struct gpio_dt_spec button0 = GPIO_DT_GET_SPEC(button0, gpio0);
 	dev_uart 	= DEVICE_DT_GET(DT_NODELABEL(uart0));
 	dev_i2c 	= DEVICE_DT_GET(DT_NODELABEL(i2c0));
 	if (!device_is_ready(dev_i2c)) {
