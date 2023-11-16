@@ -30,7 +30,9 @@ void main(void)
 		return;
 	}
 	/* STEP 4 - Verify that the device is ready for use */
-
+	if (!device_is_ready(button0led.port)) {
+		return;
+	}
 
 	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
 	if (ret < 0) {
@@ -38,13 +40,16 @@ void main(void)
 	}
 
 	/* STEP 5 - Configure the pin connected to the button to be an input pin and set its hardware specifications */
-
+	ret = gpio_pin_configure_dt(&button0led, GPIO_INPUT);
+	if (ret < 0) {
+		return;
+	}
 
 	while (1) {
 		/* STEP 6.1 - Read the status of the button and store it */
-
+		bool val = gpio_pin_get_dt(&button0led);
 		/* STEP 6.2 - Update the LED to the status of the button */
-
+		gpio_pin_set_dt(&led, val);
 		k_msleep(SLEEP_TIME_MS); // Put the main thread to sleep for 100ms for power optimization
 	}
 }
