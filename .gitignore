@@ -8,7 +8,7 @@ images/
 .idea/
 .vscode/
 _example/
-_NRF_SDK/
+_nRF_SDK/
 
 # Binaries for programs and plugins
 *.exe
