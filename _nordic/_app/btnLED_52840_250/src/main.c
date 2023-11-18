@@ -10,6 +10,7 @@
 #include <zephyr/drivers/gpio.h>
 /* STEP 6 - Include the header file of printk */
 #include <zephyr/sys/printk.h>
+#include <zephyr/logging/log.h>
 /* STEP 8.1 - Define the macro MAX_NUMBER_FACT that represents the maximum number to calculate its factorial  */
 
 #define SLEEP_TIME_MS   10*60*1000
@@ -21,6 +22,7 @@ static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 #define MAX_NUMBER_FACT 10
+LOG_MODULE_REGISTER(Less4_Exer2, LOG_LEVEL_DBG);
 
 /* STEP 8.2 - Replace the button callback function */
 void button_pressed(const struct device *dev, struct gpio_callback *cb,
@@ -29,15 +31,15 @@ void button_pressed(const struct device *dev, struct gpio_callback *cb,
 	int i;
 	int j;
 	long int factorial;
-	printk("C---: %d \n\r", MAX_NUMBER_FACT);
+	LOG_INF("C---: %d \n\r", MAX_NUMBER_FACT);
 	for (i=1;i<=MAX_NUMBER_FACT;i++){
 		factorial = 1;
 			for (j=1;j<=i;j++){
 				factorial = factorial*j;
 			}
-			printk("Output---: %2d -> %1d \n\r", i, factorial);
+			LOG_INF("Output---: %2d -> %1d \n\r", i, factorial);
 	}
-	printk("_______________________________________________________\n\r");
+	LOG_INF("_______________________________________________________\n\r");
   /*Important note!
   Code in ISR runs at a high priority, therefore, it should be written with timing in mind.
   Too lengthy or too complex tasks should not be performed by an ISR, they should be deferred to a thread. 
@@ -46,11 +48,23 @@ void button_pressed(const struct device *dev, struct gpio_callback *cb,
 
 static struct gpio_callback button_cb_data;
 
+
 void main(void)
 {
 	int ret;
 	/* STEP 7 - Print a simple banner */
-	printk("nRF Connect SDK Fundamentals - Lesson 4 - Exercise 1\n\r");
+	int exercise_num=2;
+    uint8_t data[] = {0x00, 0x01, 0x02, 0x03,
+                      0x04, 0x05, 0x06, 0x07,
+                      'H', 'e', 'l', 'l','o'};
+    //Printf-like messages
+    LOG_INF("nRF Connect SDK Fundamentals");
+    LOG_INF("Exercise %d",exercise_num);
+    LOG_DBG("A log message in debug level");
+    LOG_WRN("A log message in warning level!");
+    LOG_ERR("A log message in Error level!");
+    //Hexdump some data
+    LOG_HEXDUMP_INF(data, sizeof(data),"Sample Data!");
 	/* Only checking one since led.port and button.port point to the same device, &gpio0 */
 	if (!device_is_ready(led.port)) {
 		return;
