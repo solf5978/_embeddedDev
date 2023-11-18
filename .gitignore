@@ -8,6 +8,8 @@ images/
 .idea/
 .vscode/
 _example/
+_nordic/toolchains/
+_nordic/v*/
 _nRF_SDK/
 
 # Binaries for programs and plugins
