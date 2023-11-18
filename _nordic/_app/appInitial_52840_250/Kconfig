@@ -1,0 +1,5 @@
+source "Kconfig.zephyr"
+
+config FUNCTEST
+    bool "Enable FUNCTEST"
+    default n
