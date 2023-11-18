@@ -8,38 +8,51 @@
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
+/* STEP 6 - Include the header file of printk */
+#include <zephyr/sys/printk.h>
+/* STEP 8.1 - Define the macro MAX_NUMBER_FACT that represents the maximum number to calculate its factorial  */
 
-/* STEP 9 - Increase the sleep time from 100ms to 10 minutes  */
 #define SLEEP_TIME_MS   10*60*1000
 
-/* SW0_NODE is the devicetree node identifier for the "sw0" alias */
-#define SW0_NODE	DT_ALIAS(sw0) 
+#define SW0_NODE	DT_ALIAS(sw0)
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
 
-/* LED0_NODE is the devicetree node identifier for the "led0" alias. */
-#define LED0_NODE	DT_ALIAS(led0)
+#define LED0_NODE DT_ALIAS(led0)
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
+#define MAX_NUMBER_FACT 10
 
-
-/* STEP 4 - Define the callback function */
-void btn_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
+/* STEP 8.2 - Replace the button callback function */
+void button_pressed(const struct device *dev, struct gpio_callback *cb,
+		    uint32_t pins)
 {
-	gpio_pin_toggle_dt(&led);
+	int i;
+	int j;
+	long int factorial;
+	printk("C---: %d \n\r", MAX_NUMBER_FACT);
+	for (i=1;i<=MAX_NUMBER_FACT;i++){
+		factorial = 1;
+			for (j=1;j<=i;j++){
+				factorial = factorial*j;
+			}
+			printk("Output---: %2d -> %1d \n\r", i, factorial);
+	}
+	printk("_______________________________________________________\n\r");
+  /*Important note!
+  Code in ISR runs at a high priority, therefore, it should be written with timing in mind.
+  Too lengthy or too complex tasks should not be performed by an ISR, they should be deferred to a thread. 
+  */
 }
 
-/* STEP 5 - Define a variable of type static struct gpio_callback */
-static struct gpio_callback btn_cb_data;
+static struct gpio_callback button_cb_data;
 
 void main(void)
 {
 	int ret;
-
+	/* STEP 7 - Print a simple banner */
+	printk("nRF Connect SDK Fundamentals - Lesson 4 - Exercise 1\n\r");
+	/* Only checking one since led.port and button.port point to the same device, &gpio0 */
 	if (!device_is_ready(led.port)) {
-		return;
-	}
-
-	if (!device_is_ready(button.port)) {
 		return;
 	}
 
@@ -52,17 +65,13 @@ void main(void)
 	if (ret < 0) {
 		return;
 	}
-	/* STEP 3 - Configure the interrupt on the button's pin */
+
 	ret = gpio_pin_interrupt_configure_dt(&button, GPIO_INT_EDGE_TO_ACTIVE);
 
-	/* STEP 6 - Initialize the static struct gpio_callback variable   */
-	gpio_init_callback(&btn_cb_data, btn_pressed, BIT(button.pin));
-	/* STEP 7 - Add the callback function by calling gpio_add_callback()   */
-	gpio_add_callback(button.port, &btn_cb_data);
+	gpio_init_callback(&button_cb_data, button_pressed, BIT(button.pin));	
+
+	gpio_add_callback(button.port, &button_cb_data);	
 	while (1) {
-		/* STEP 8 - Remove the polling code */
-     
         k_msleep(SLEEP_TIME_MS); 
-		// k_yield();
 	}
 }
