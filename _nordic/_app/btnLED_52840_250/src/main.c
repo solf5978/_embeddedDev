@@ -63,5 +63,6 @@ void main(void)
 		/* STEP 8 - Remove the polling code */
      
         k_msleep(SLEEP_TIME_MS); 
+		// k_yield();
 	}
 }
