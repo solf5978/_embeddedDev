@@ -2,16 +2,19 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"name": "v1.6.0",
+			"path": "_nordic/v1.6.0"
 		}
 	],
 	"settings": {
 		"nrf-connect.applications": [
-			"${workspaceFolder}\\blinky",
-			"${workspaceFolder}\\ncs_impl",
-			"${workspaceFolder}\\_nordic\\v1.6.0\\nrf\\_app\\blinky_app"
+			"${workspaceFolder}\\_nordic\\v1.6.0\\nrf\\_app\\button_52840_160",
+			"${workspaceFolder}\\_nordic\\v2.5.0\\nrf\\_app\\btnLED_52840_250"
 		],
 		"nrf-connect.toolchainManager.installDirectory": "",
-		"nrf-connect.toolchain.path": "${nrf-connect.toolchain:1.6.0}",
+		"nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.5.0}",
 		"nrf-connect.thirdpartyIntegration": {
 
 		},
@@ -19,6 +22,9 @@
 			"$base": "terminal"
 		},
 		"nrf-connect.topdir": "",
-		"nrf-connect.welcome.showOnStartup": false
+		"nrf-connect.welcome.showOnStartup": false,
+		"files.associations": {
+			"inttypes.h": "c"
+		}
 	}
 }
