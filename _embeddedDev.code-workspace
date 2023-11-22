@@ -2,10 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"name": "v1.6.0",
-			"path": "_nordic/v1.6.0"
 		}
 	],
 	"settings": {
