@@ -1,7 +1,7 @@
 
 
-#ifndef MAIN_H_
-#define MAIN_H_
+#ifndef 09LEDTOGGLEBITFIELD_H_
+#define 09LEDTOGGLEBITFIELD_H_
 
 #include<stdint.h>
 
@@ -80,4 +80,4 @@ typedef struct
 
 
 
-#endif /* MAIN_H_ */
+#endif /* 09LEDTOGGLEBITFIELD_H_ */
