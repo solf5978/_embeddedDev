@@ -19,10 +19,16 @@
 			"$base": "terminal"
 		},
 		"nrf-connect.topdir": "",
-		"nrf-connect.welcome.showOnStartup": false,
+		"nrf-connect.welcome.showOnStartup": true,
 		"files.associations": {
 			"inttypes.h": "c",
-			"stdlib.h": "c"
-		}
+			"stdlib.h": "c",
+			"*.tcc": "c",
+			"aw20xxx.h": "c",
+			"aw_lamp_interface.h": "c",
+			"aw_breath_algorithm.h": "c"
+		},
+		"C_Cpp.default.compilerPath": "",
+
 	}
 }
